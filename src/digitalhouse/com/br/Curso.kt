@@ -3,16 +3,26 @@ package digitalhouse.com.br
 class Curso(
     val nome: String,
     val codigoCurso: Int,
-    val professorTitular: ProfessorTitular,
-    val professorAdjunto: ProfessorAdjunto,
     val qntdMaxAlunos: Int,
-    val listaAlunosMatriculados: List<Aluno> = listOf<Aluno>()
-) {
-    fun adicionarUmAluno(aluno: Aluno): Boolean {
-        return true
+
+    ) {
+
+//    val professorTitular = ProfessorTitular
+//    val professorAdjunto = ProfessorAdjunto
+
+    val listaAlunosMatriculados = mutableListOf<Aluno>()
+
+    fun adicionarUmAluno(umAluno: Aluno): Boolean {
+        return listaAlunosMatriculados.size < qntdMaxAlunos
     }
 
-    fun excluirAluno(aluno: Aluno) {
+    fun excluirAluno(umAluno: Aluno) {
 
+        if (listaAlunosMatriculados.contains(umAluno)) {
+            listaAlunosMatriculados.remove(umAluno)
+        } else {
+            println("Aluno Inexistente")
+        }
     }
+
 }
