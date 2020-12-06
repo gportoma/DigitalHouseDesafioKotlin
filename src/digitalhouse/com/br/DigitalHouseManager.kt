@@ -53,30 +53,54 @@ class DigitalHouseManager() {
     }
 
     fun matricularAlunoCurso(codigoAluno: Int, codigoCurso: Int) {
-        var codCurso = codigoCurso
-        var codAluno = codigoAluno
+        var curso: Curso? = null
+        var aluno: Aluno? = null
 
         for (c in listaDeCursos) {
             if (c.codigoCurso == codigoCurso) {
-                codCurso = c.codigoCurso
-
-            } else {
-                println("Curso Inexistente")
+                curso = c
             }
         }
         for (a in listaDeAlunos) {
             if (a.codigoAluno == codigoAluno) {
-                codAluno = a.codigoAluno
-
-            } else {
-                println("Aluno Inexistente")
+                aluno = a
             }
         }
+        if (curso?.codigoCurso == codigoCurso && aluno?.codigoAluno == codigoAluno) {
+            if (curso.adicionarUmAluno(aluno)) {
+                val matricula = Matricula(aluno, curso, "dataTeste")
+                listaDeMatricula.add(matricula)
+                println("Matricula do ${aluno.nome} Realizada no ${curso.nome}")
+            } else {
+                println("Não há vagas disponíveis")
+            }
+        }
+
 
     }
 
     fun alocarProfessores(codigoCurso: Int, codigoProfessorTitular: Int, codigoProfessorAdjunto: Int) {
+        var professorTitular: ProfessorTitular? = null
+        var professorAdjunto: ProfessorAdjunto? = null
+        var curso: Curso? = null
 
+        for (prof in listaDeProfessores) {
+            if (prof.codigoProfessor == codigoProfessorTitular && prof is ProfessorTitular) {
+                professorTitular = prof
+            } else if (prof.codigoProfessor == codigoProfessorAdjunto && prof is ProfessorAdjunto) {
+                professorAdjunto = prof
+            }
+        }
+        for (c in listaDeCursos) {
+            if (c.codigoCurso == codigoCurso) {
+                curso = c
+            }
+        }
+        if (curso?.codigoCurso == codigoCurso && professorTitular?.codigoProfessor == codigoProfessorTitular && professorAdjunto?.codigoProfessor == codigoProfessorAdjunto) {
+            curso.professorTitular = professorTitular
+            println("Professor ${professorTitular.nome} alocado no Curso ${curso.nome}")
+            curso.professorAdjunto = professorAdjunto
+            println("Professor ${professorAdjunto.nome} alocado no Curso ${curso.nome}")
+        }
     }
-
 }
